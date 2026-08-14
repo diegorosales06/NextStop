@@ -63,6 +63,17 @@ def cmd_show(args):
     summarize_articulation(load_articulation(args.path))
 
 
+def cmd_load_institutions(args):
+    # Lazy import so the other subcommands don't require psycopg/dotenv.
+    from db_institutions import load_institutions
+    load_institutions()
+
+
+def cmd_load_academic_years(args):
+    from db_academic_years import load_academic_years
+    load_academic_years()
+
+
 def main(argv=None):
     parser = argparse.ArgumentParser(prog="assist")
     parser.add_argument("--log-level", default="INFO",
@@ -91,6 +102,14 @@ def main(argv=None):
                        help="Print a summary of a cached articulation JSON")
     p.add_argument("path")
     p.set_defaults(func=cmd_show)
+
+    p = sub.add_parser("load-institutions",
+                       help="Upsert metadata/institutions.json into Postgres")
+    p.set_defaults(func=cmd_load_institutions)
+
+    p = sub.add_parser("load-academic-years",
+                       help="Upsert metadata/academic_years.json into Postgres")
+    p.set_defaults(func=cmd_load_academic_years)
 
     args = parser.parse_args(argv)
     configure_logging(args.log_level)

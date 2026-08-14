@@ -4,6 +4,8 @@ Only concern: talk to assist.org. Handles the XSRF token pair, rate limits
 to 1 req/sec, and returns decoded JSON. No filesystem access, no business
 logic — those live in the other modules.
 """
+from __future__ import annotations
+
 import json
 import logging
 import time

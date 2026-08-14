@@ -3,6 +3,8 @@
 Pure formatting — no network, no writing. Given a path, prints each receiving
 course and the sending-side course(s) required, respecting AND/OR grouping.
 """
+from __future__ import annotations
+
 import json
 import logging
 from pathlib import Path

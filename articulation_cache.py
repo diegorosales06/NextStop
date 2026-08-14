@@ -4,6 +4,8 @@ For one (sending, receiving, year) triple, lists the agreements and fetches
 each one, writing to raw/{SEND}_to_{RECV}_{year}_{safe_key}.json. Files that
 already exist are skipped so runs are resumable.
 """
+from __future__ import annotations
+
 import json
 import logging
 from pathlib import Path
