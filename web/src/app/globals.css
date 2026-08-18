@@ -1,0 +1,73 @@
+@import "tailwindcss";
+
+@theme {
+  --font-sans: ui-sans-serif, system-ui, -apple-system, "Segoe UI Variable Text", "Segoe UI", sans-serif;
+  --font-mono: ui-monospace, "SF Mono", "JetBrains Mono", Consolas, monospace;
+}
+
+/* Design tokens — light mode. Dark mode overrides below. Keep these in
+   sync with the mockup canvas (design/*.dc.html). */
+:root {
+  --bg: #fdfcfa;
+  --surface: #ffffff;
+  --surface-2: #f6f5f0;
+  --text: #17171b;
+  --text-muted: #6a6a72;
+  --border: #ebe9e2;
+  --border-strong: #d9d7ce;
+  --accent: #3654dc;
+  --accent-soft: #eaeeff;
+  --success: #2a7d4f;
+  --success-soft: #e6f4ec;
+  --warn: #a66a1c;
+  --warn-soft: #fbf2df;
+  --track: #f0eee7;
+  --info: #4a5b7d;
+  --info-soft: #eef1f8;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #101014;
+    --surface: #191920;
+    --surface-2: #22222a;
+    --text: #ececef;
+    --text-muted: #9a9aa2;
+    --border: #2a2a33;
+    --border-strong: #363641;
+    --accent: #7d95ff;
+    --accent-soft: #1c2043;
+    --success: #6bc094;
+    --success-soft: #16301f;
+    --warn: #dcae5c;
+    --warn-soft: #2e2515;
+    --track: #22222a;
+    --info: #9aabcf;
+    --info-soft: #1a1e2c;
+  }
+}
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font-sans);
+  font-size: 14px;
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Utility classes — thin wrappers so components can write `bg-surface` etc.
+   without importing the CSS var name each time. */
+@utility bg-app { background: var(--bg); }
+@utility bg-surface { background: var(--surface); }
+@utility bg-surface-2 { background: var(--surface-2); }
+@utility bg-accent { background: var(--accent); }
+@utility bg-accent-soft { background: var(--accent-soft); }
+@utility bg-success-soft { background: var(--success-soft); }
+@utility bg-track { background: var(--track); }
+@utility text-app { color: var(--text); }
+@utility text-muted { color: var(--text-muted); }
+@utility text-accent { color: var(--accent); }
+@utility text-success { color: var(--success); }
+@utility border-app { border-color: var(--border); }
+@utility border-strong { border-color: var(--border-strong); }
