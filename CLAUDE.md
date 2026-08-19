@@ -222,7 +222,7 @@ Base: `https://assist.org/api`. All GETs.
 
 ## What's done vs what's next
 
-**Current status (2026-08-18):** MVP web app is browsable end-to-end signed-out — landing, the `/majors` umbrella-major picker → schools ranked against your coursework, the requirement checklist, and the localStorage-backed schedule editor all work. Blocking gaps: Google OAuth dashboard config, the wider ASSIST scrape (~12 of ~900 agreements loaded), and star-to-save. _Future sessions: keep this line and the lists below current — this is the living status of the project._
+**Current status (2026-08-19):** MVP web app is **deployed live on Vercel** and browsable end-to-end signed-out — landing, the `/majors` umbrella-major picker → schools ranked against your coursework, the requirement checklist, and the localStorage-backed schedule editor all work. Every push to `main` auto-deploys to the same production URL. Blocking gaps: Google OAuth dashboard config (so sign-in/save works on the live site), the wider ASSIST scrape (~12 of ~900 agreements loaded), and star-to-save. _Future sessions: keep this line and the lists below current — this is the living status of the project._
 
 **Done:**
 - Full data pipeline (Python) with 4 loaders + CLI
@@ -231,9 +231,11 @@ Base: `https://assist.org/api`. All GETs.
 - Design mockup published as Artifact
 - Next.js web app: Google OAuth wiring (needs Dashboard config), landing, requirement checklist, and the interactive schedule editor (localStorage-backed, works signed out)
 - `/majors` two-step flow: pick an umbrella major (Computer Science / Electrical Engineering / Computer Engineering) → receiving schools ranked against your coursework. Umbrella buckets are hardcoded keyword filters in `web/src/app/majors/page.tsx` (`MAJOR_CATEGORIES`); see [web/CLAUDE.md](web/CLAUDE.md).
+- **Deployed to Vercel** — root directory set to `web/`, the two `NEXT_PUBLIC_SUPABASE_*` env vars set in the Vercel dashboard, auto-deploy on push to `main`.
+- **Refinement pass** (thermo-nuclear + architecture review): extracted `web/src/lib/requirements/classify.ts` (the satisfied/unsatisfied/notes + completion-% rule), `web/src/lib/courses/params.ts` (the `?courses=` URL codec), and `web/src/components/ui/QueryError.tsx` + `--danger`/`--danger-soft` tokens (replacing a hardcoded `#fee` that broke dark mode). Behavior-preserving; `tsc`, `eslint`, and `next build` all pass.
 
 **Immediate next steps (in order):**
-1. **Google OAuth config** — ~5 min in Google Cloud Console + Supabase Dashboard. Steps in [web/README.md](web/README.md).
+1. **Google OAuth config** — now the top gap: the live Vercel site can browse but can't sign in / save until this is done. ~10 min in Google Cloud Console + Supabase Dashboard; also add the production redirect URL `https://<vercel-domain>/auth/callback` to Supabase → Authentication → URL Configuration. Steps in [web/README.md](web/README.md).
 2. **Scrape the rest** — background run, ~a few hours at 1 req/sec, gets to ~900 agreements. Run `python main.py scrape --sending <id> --receiving <id>` for each CC × 4-year pair, then `python main.py load-articulations`.
 3. **Star-to-save on major detail** — the last remaining mutation flow (`saved_agreements` insert/delete); lets `/saved` graduate from a stub. The schedule editor and `/majors` flow are already wired.
 
@@ -244,7 +246,9 @@ Base: `https://assist.org/api`. All GETs.
 
 ## Repo state
 
-- Git: `main` branch. Recent commits: `7b6dfb3 web proto`, `bfe399c claude.md updated`.
+- Git: `main` branch. Recent commits: `3ec7f7c web: extract requirement-classification, ?courses= codec, QueryError`, `eb9f4d7 Add /majors umbrella flow, schedule editor, and pipeline updates`.
+- **GitHub repo renamed** `JucoProduct` → `NextStop` (server-side): https://github.com/diegorosales06/NextStop. The old `origin` URL still redirects; run `git remote set-url origin https://github.com/diegorosales06/NextStop.git` to silence the "repository moved" notice.
+- **Deployment:** live on Vercel, root directory `web/`, auto-deploys on every push to `main` (production URL is a stable alias — updates don't change the link). The two `NEXT_PUBLIC_SUPABASE_*` values are set in the Vercel dashboard, not committed (`.env.local` is gitignored).
 - `.gitignore` covers `.env*`, `__pycache__/`, `.venv/`, `.DS_Store`, editor dirs, `raw/`, `web/node_modules/`, `web/.next/`.
 - `test.py` at repo root is Diego's scratch file — not tracked, leave alone.
 - **Vestigial:** `Downloads/JucoProduct/` (pre-rename stub) and `NextStop/JucoProduct/` (nested subfolder from an earlier scaffold) — both safe to delete on request.

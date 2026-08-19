@@ -31,12 +31,17 @@ web/
     ├── components/
     │   ├── Header.tsx                Server component — reads current user
     │   ├── GoogleSignInButton.tsx    Client
-    │   └── SignOutButton.tsx         Client
+    │   ├── SignOutButton.tsx         Client
+    │   ├── ui/QueryError.tsx         Shared error box for failed Supabase queries (token-based, dark-safe)
+    │   └── schedule/                 Editor, search, and the localStorage↔DB sync components
     └── lib/
         ├── supabase/
         │   ├── client.ts             Browser client (`createBrowserClient`)
         │   ├── server.ts             Server-component client (async, wraps Next cookies())
         │   └── middleware.ts         Session-refresh helper called from middleware.ts
+        ├── courses/params.ts         `?courses=` URL codec — parse/serialize course-id lists (one seam)
+        ├── requirements/classify.ts  classifyEntries(rows) → satisfied/unsatisfied/notes + completion % (the rule, one owner)
+        ├── schedule/                 store.ts (localStorage) + sync.ts (DB) + format.ts (display shaping)
         ├── database.types.ts         Hand-crafted DB types matching sql/001–005 — see § Types
         └── mvp.ts                    Roster constants — keep in sync with ../mvp_config.py
 ```
@@ -59,7 +64,15 @@ An anonymous schedule is just a list of course IDs in `localStorage` (the
 requirement engine only needs IDs). Signing in migrates it to the DB. See
 § Anonymous schedule store below.
 
-## Wiring state (2026-08-18)
+## Deployment
+
+Live on **Vercel** (deployed 2026-08-19). Key settings:
+- **Root Directory = `web/`** (the Next app is not at the repo root — this is the one setting that breaks the build if missed).
+- Env vars set in the Vercel dashboard: `NEXT_PUBLIC_SUPABASE_URL`, `NEXT_PUBLIC_SUPABASE_ANON_KEY` (both publishable/anon — they ship to the browser anyway; `.env.local` stays gitignored).
+- **Auto-deploys on every push to `main`**; the production URL is a stable alias, so updates never change the link. Other branches get preview URLs.
+- **Sign-in is not yet functional in production** — needs the Google OAuth config (see parent [../CLAUDE.md](../CLAUDE.md) next steps) plus the prod redirect URL `https://<vercel-domain>/auth/callback` added to Supabase → Authentication → URL Configuration. Everything else (public-browse) works live.
+
+## Wiring state (2026-08-19)
 
 **Working end-to-end** (no code changes needed):
 - Google OAuth sign-in / sign-out
