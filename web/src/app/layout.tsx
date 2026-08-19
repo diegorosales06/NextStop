@@ -1,5 +1,6 @@
 import type { Metadata } from 'next'
 import './globals.css'
+import { ScheduleSync } from '@/components/schedule/ScheduleSync'
 
 export const metadata: Metadata = {
   title: 'NextStop — Transfer Planner',
@@ -14,7 +15,10 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body>{children}</body>
+      <body>
+        <ScheduleSync />
+        {children}
+      </body>
     </html>
   )
 }

@@ -74,19 +74,20 @@ export async function Header({ active = null }: { active?: Section }) {
           </div>
         </Link>
 
-        {user && (
-          <nav style={{ display: 'flex', gap: 4 }}>
-            <Link href="/schedule" style={navItemStyle('schedule')}>
-              Schedule
-            </Link>
-            <Link href="/majors" style={navItemStyle('majors')}>
-              Matching majors
-            </Link>
+        {/* Schedule + Matching majors are public; Saved is account-only. */}
+        <nav style={{ display: 'flex', gap: 4 }}>
+          <Link href="/schedule" style={navItemStyle('schedule')}>
+            Schedule
+          </Link>
+          <Link href="/majors" style={navItemStyle('majors')}>
+            Matching majors
+          </Link>
+          {user && (
             <Link href="/saved" style={navItemStyle('saved')}>
               Saved
             </Link>
-          </nav>
-        )}
+          )}
+        </nav>
       </div>
 
       <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>

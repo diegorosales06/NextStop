@@ -1,0 +1,217 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+  <style>
+    body { margin: 0; }
+    a { color: inherit; text-decoration: none; }
+    :root {
+      --font-sans: ui-sans-serif, system-ui, -apple-system, "Segoe UI Variable Text", "Segoe UI", sans-serif;
+      --font-mono: ui-monospace, "SF Mono", "JetBrains Mono", Consolas, monospace;
+    }
+    [data-theme="light"] {
+      --bg: #fdfcfa; --surface: #ffffff; --surface-2: #f6f5f0;
+      --text: #17171b; --text-muted: #6a6a72;
+      --border: #ebe9e2; --border-strong: #d9d7ce;
+      --accent: #3654dc; --accent-soft: #eaeeff;
+      --success: #2a7d4f; --success-soft: #e6f4ec;
+      --track: #f0eee7;
+      --info: #4a5b7d; --info-soft: #eef1f8;
+    }
+    [data-theme="dark"] {
+      --bg: #101014; --surface: #191920; --surface-2: #22222a;
+      --text: #ececef; --text-muted: #9a9aa2;
+      --border: #2a2a33; --border-strong: #363641;
+      --accent: #7d95ff; --accent-soft: #1c2043;
+      --success: #6bc094; --success-soft: #16301f;
+      --track: #22222a;
+      --info: #9aabcf; --info-soft: #1a1e2c;
+    }
+    * { box-sizing: border-box; }
+  </style>
+</helmet>
+
+<div data-theme="{{theme}}" style="width: 1280px; height: 1120px; background: var(--bg); color: var(--text); font-family: var(--font-sans); font-size: 14px; line-height: 1.5;">
+
+  <!-- Header -->
+  <header style="height: 60px; padding: 0 40px; display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid var(--border); background: var(--surface);">
+    <div style="display: flex; align-items: center; gap: 24px;">
+      <div style="display: flex; align-items: center; gap: 10px;">
+        <div style="width: 26px; height: 26px; border-radius: 6px; background: var(--accent); display: grid; place-items: center; color: white; font-weight: 700; font-size: 11px; letter-spacing: -0.02em;">NS</div>
+        <div style="font-weight: 600; font-size: 16px; letter-spacing: -0.01em;">NextStop</div>
+      </div>
+      <nav style="display: flex; gap: 4px;">
+        <a style="padding: 6px 12px; border-radius: 6px; font-size: 13px; color: var(--text-muted);">Schedule</a>
+        <a style="padding: 6px 12px; border-radius: 6px; font-size: 13px; font-weight: 500; background: var(--surface-2); color: var(--text);">Matching majors</a>
+        <a style="padding: 6px 12px; border-radius: 6px; font-size: 13px; color: var(--text-muted);">Saved</a>
+      </nav>
+    </div>
+    <div style="display: flex; align-items: center; gap: 12px;">
+      <button style="height: 34px; padding: 0 12px; border: 1px solid var(--border-strong); border-radius: 6px; background: var(--surface); color: var(--text); font-family: inherit; font-size: 13px; display: flex; align-items: center; gap: 8px; cursor: pointer;">
+        Fall 26 Plan
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="color: var(--text-muted);"><polyline points="6 9 12 15 18 9"/></svg>
+      </button>
+      <div style="width: 30px; height: 30px; border-radius: 50%; background: linear-gradient(135deg, #f4b183, #d67c3a); display: grid; place-items: center; color: white; font-weight: 600; font-size: 12px;">DR</div>
+    </div>
+  </header>
+
+  <div style="padding: 24px 40px 40px;">
+    <!-- Breadcrumb -->
+    <div style="font-size: 12px; color: var(--text-muted); margin-bottom: 16px;">
+      <a style="color: var(--text-muted); cursor: pointer;">Matching majors</a>
+      <span style="margin: 0 8px;">›</span>
+      <span style="color: var(--text);">UCLA · Computer Science, B.S.</span>
+    </div>
+
+    <!-- Major header card -->
+    <div style="background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 24px; margin-bottom: 24px;">
+      <div style="display: grid; grid-template-columns: 56px 1fr auto; gap: 20px; align-items: start;">
+        <div style="width: 56px; height: 56px; border-radius: 12px; background: #fde7c8; color: #8a4a0e; display: grid; place-items: center; font-weight: 700; font-size: 15px;">UCLA</div>
+
+        <div>
+          <div style="font-size: 13px; color: var(--text-muted); margin-bottom: 4px;">University of California, Los Angeles · 2026-27</div>
+          <h1 style="margin: 0 0 12px; font-size: 24px; font-weight: 600; letter-spacing: -0.01em;">Computer Science, B.S.</h1>
+          <div style="display: flex; align-items: baseline; gap: 12px; margin-bottom: 8px;">
+            <span style="font-size: 32px; font-weight: 700; color: var(--text); letter-spacing: -0.02em; font-variant-numeric: tabular-nums;">31%</span>
+            <span style="font-size: 14px; color: var(--text-muted);">complete · 4 of 13 requirements satisfied</span>
+          </div>
+          <div style="height: 8px; background: var(--track); border-radius: 4px; overflow: hidden; max-width: 480px;">
+            <div style="height: 100%; width: 31%; background: var(--accent); border-radius: 4px;"></div>
+          </div>
+        </div>
+
+        <div style="display: flex; flex-direction: column; gap: 8px;">
+          <button style="height: 36px; padding: 0 14px; border: 1px solid var(--accent); border-radius: 6px; background: var(--accent-soft); color: var(--accent); font-family: inherit; font-size: 13px; font-weight: 500; display: flex; align-items: center; gap: 8px; cursor: pointer;">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+            Save as target
+          </button>
+          <button style="height: 36px; padding: 0 14px; border: 1px solid var(--border-strong); border-radius: 6px; background: var(--surface); color: var(--text); font-family: inherit; font-size: 13px; display: flex; align-items: center; gap: 8px; cursor: pointer;">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 6 2 18 2 18 9"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><rect x="6" y="14" width="12" height="8"/></svg>
+            Print
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Two-column layout: satisfied + unsatisfied -->
+    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 24px;">
+
+      <!-- What you have -->
+      <div>
+        <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 12px;">
+          <div style="width: 20px; height: 20px; border-radius: 50%; background: var(--success); display: grid; place-items: center;">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>
+          </div>
+          <h2 style="margin: 0; font-size: 13px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.06em;">What you have</h2>
+          <span style="font-size: 12px; color: var(--text-muted);">4 satisfied</span>
+        </div>
+        <div style="display: flex; flex-direction: column; gap: 6px;">
+          <sc-for list="{{satisfied}}" as="r" hint-placeholder-count="4">
+            <div style="padding: 12px 16px; background: var(--success-soft); border: 1px solid var(--success); border-left-width: 3px; border-radius: 6px;">
+              <div style="display: flex; justify-content: space-between; align-items: baseline;">
+                <span style="font-family: var(--font-mono); font-size: 13px; font-weight: 600; color: var(--text);">{{r.req}}</span>
+                <span style="font-size: 12px; color: var(--text-muted);">satisfied by</span>
+              </div>
+              <div style="margin-top: 6px; font-size: 13px; color: var(--text-muted);">
+                <span style="font-family: var(--font-mono); color: var(--text);">{{r.via}}</span> — {{r.viaTitle}}
+              </div>
+            </div>
+          </sc-for>
+        </div>
+      </div>
+
+      <!-- What you need -->
+      <div>
+        <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 12px;">
+          <div style="width: 20px; height: 20px; border-radius: 50%; border: 2px solid var(--border-strong); background: var(--surface);"></div>
+          <h2 style="margin: 0; font-size: 13px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.06em;">What you need</h2>
+          <span style="font-size: 12px; color: var(--text-muted);">7 remaining</span>
+        </div>
+        <div style="display: flex; flex-direction: column; gap: 10px;">
+          <sc-for list="{{unsatisfied}}" as="r" hint-placeholder-count="4">
+            <div style="padding: 14px 16px; background: var(--surface); border: 1px solid var(--border); border-radius: 6px;">
+              <div style="display: flex; align-items: baseline; gap: 10px; margin-bottom: 6px;">
+                <div style="width: 16px; height: 16px; border-radius: 50%; border: 1.5px solid var(--border-strong); flex-shrink: 0; margin-top: 3px;"></div>
+                <span style="font-family: var(--font-mono); font-size: 13px; font-weight: 600; color: var(--text);">{{r.req}}</span>
+                <sc-if value="{{r.isSeries}}" hint-placeholder-val="{{true}}">
+                  <span style="padding: 1px 6px; border-radius: 3px; background: var(--surface-2); color: var(--text-muted); font-size: 10px; font-weight: 500; text-transform: uppercase; letter-spacing: 0.05em;">Series — take all</span>
+                </sc-if>
+              </div>
+              <div style="padding-left: 26px;">
+                <div style="font-size: 12px; color: var(--text-muted); margin-bottom: 8px;">{{r.title}}</div>
+                <div style="font-size: 11px; text-transform: uppercase; letter-spacing: 0.06em; color: var(--text-muted); margin-bottom: 6px; font-weight: 500;">Take one of:</div>
+                <div style="display: flex; flex-direction: column; gap: 4px;">
+                  <sc-for list="{{r.options}}" as="o" hint-placeholder-count="2">
+                    <div style="display: flex; justify-content: space-between; padding: 6px 10px; background: var(--surface-2); border-radius: 4px; font-size: 12px;">
+                      <div>
+                        <span style="font-family: var(--font-mono); font-weight: 600; color: var(--text);">{{o.code}}</span>
+                        <span style="color: var(--text-muted); margin-left: 8px;">{{o.title}}</span>
+                      </div>
+                      <span style="color: var(--text-muted); font-size: 11px;">{{o.at}}</span>
+                    </div>
+                  </sc-for>
+                </div>
+              </div>
+            </div>
+          </sc-for>
+        </div>
+      </div>
+    </div>
+
+    <!-- Info notes (Requirement-type entries) -->
+    <div style="margin-top: 24px;">
+      <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 12px;">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="color: var(--info);"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+        <h2 style="margin: 0; font-size: 13px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.06em; color: var(--text);">Verify with a counselor</h2>
+        <span style="font-size: 12px; color: var(--text-muted);">2 items</span>
+      </div>
+      <div style="padding: 14px 16px; background: var(--info-soft); border: 1px solid var(--info); border-radius: 8px; font-size: 13px; color: var(--text);">
+        These requirements are described in prose in the ASSIST agreement — they're typically satisfied through IGETC or general education, not a single articulated course. Check with a counselor.
+        <ul style="margin: 10px 0 0; padding-left: 20px; color: var(--text-muted);">
+          <li style="margin-bottom: 4px;">English composition courses</li>
+          <li>American history and institutions (US 1, 2, or 3)</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+
+</x-dc>
+<script data-dc-script data-props='{"theme":{"editor":"enum","options":["light","dark"],"default":"light","section":"Theme"},"accent":{"editor":"color","default":"#3654dc","section":"Theme"}}'>
+class Component extends DCLogic {
+  renderVals() {
+    return {
+      theme: this.props.theme ?? 'light',
+      satisfied: [
+        { req: 'MATH 31A', via: 'MATH 180', viaTitle: 'Analytic Geometry & Calculus I' },
+        { req: 'MATH 31B', via: 'MATH 181', viaTitle: 'Analytic Geometry & Calculus II' },
+        { req: 'MATH 32A', via: 'MATH 280', viaTitle: 'Calculus & Analytic Geometry III (in progress)' },
+        { req: 'MATH 32B', via: 'MATH 280', viaTitle: 'Calculus & Analytic Geometry III (in progress)' },
+      ],
+      unsatisfied: [
+        { req: 'COM SCI 31', title: 'Introduction to Computer Science I', isSeries: false, options: [
+          { code: 'CSCI 145', title: 'Java Language & OOP', at: 'Mt. SAC' },
+          { code: 'CIS 22A',  title: 'Beginning Programming in C++',      at: 'De Anza' },
+        ]},
+        { req: 'COM SCI 32', title: 'Introduction to Computer Science II', isSeries: false, options: [
+          { code: 'CSCI 185', title: 'Data Structures & Algorithms', at: 'Mt. SAC (planned in your schedule)' },
+          { code: 'CIS 22C',  title: 'Data Abstraction & Structures', at: 'De Anza' },
+        ]},
+        { req: 'COM SCI 33', title: 'Introduction to Computer Organization', isSeries: false, options: [
+          { code: 'CSCI 210', title: 'Computer Architecture & Assembly Language', at: 'Mt. SAC' },
+        ]},
+        { req: 'PHYSICS 1A + 1B + 1C + 4AL + 4BL', title: 'Physics for Scientists and Engineers sequence with labs', isSeries: true, options: [
+          { code: 'PHYS 1AH + 1BH + 1CH + 2AGH + 2BGH', title: 'Engineering Physics series (Honors)', at: 'Mt. SAC — PHYS 1AH is planned in your schedule' },
+        ]},
+      ],
+    };
+  }
+}
+</script>
+</body>
+</html>

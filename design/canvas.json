@@ -1,0 +1,12 @@
+{
+  "artboards": [
+    { "file": "Main.dc.html",      "x": 0,    "y": 0, "w": 1280, "h": 820,  "title": "1 — Landing" },
+    { "file": "Schedule.dc.html",  "x": 1400, "y": 0, "w": 1280, "h": 920,  "title": "2 — Schedule" },
+    { "file": "Dashboard.dc.html", "x": 2800, "y": 0, "w": 1280, "h": 900,  "title": "3 — Matching majors" },
+    { "file": "Detail.dc.html",    "x": 4200, "y": 0, "w": 1280, "h": 1120, "title": "4 — Major detail" }
+  ],
+  "annotations": [
+    { "id": "flow-note", "x": 0, "y": -80, "w": 640, "text": "Left-to-right flow: Landing → Schedule → Matching majors → Major detail. Each artboard has a theme toggle (light/dark) and accent-color chip above it." }
+  ],
+  "launch": { "view": "canvas" }
+}

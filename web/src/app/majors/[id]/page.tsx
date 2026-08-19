@@ -1,5 +1,6 @@
 import { Header } from '@/components/Header'
 import { createClient } from '@/lib/supabase/server'
+import { CoursesUrlSync } from '@/components/schedule/CoursesUrlSync'
 import { notFound } from 'next/navigation'
 import Link from 'next/link'
 
@@ -50,6 +51,7 @@ export default async function MajorDetailPage({
 
   return (
     <>
+      <CoursesUrlSync />
       <Header active="majors" />
       <main style={{ maxWidth: 1200, margin: '0 auto', padding: '24px 40px 40px' }}>
         <div className="text-muted" style={{ fontSize: 12, marginBottom: 16 }}>

@@ -74,6 +74,11 @@ def cmd_load_academic_years(args):
     load_academic_years()
 
 
+def cmd_load_articulations(args):
+    from db_articulations import load_articulations
+    load_articulations(refresh_view=not args.no_refresh)
+
+
 def main(argv=None):
     parser = argparse.ArgumentParser(prog="assist")
     parser.add_argument("--log-level", default="INFO",
@@ -110,6 +115,12 @@ def main(argv=None):
     p = sub.add_parser("load-academic-years",
                        help="Upsert metadata/academic_years.json into Postgres")
     p.set_defaults(func=cmd_load_academic_years)
+
+    p = sub.add_parser("load-articulations",
+                       help="Upsert every raw/*.json into Postgres")
+    p.add_argument("--no-refresh", action="store_true",
+                   help="Skip REFRESH MATERIALIZED VIEW course_articulates_to")
+    p.set_defaults(func=cmd_load_articulations)
 
     args = parser.parse_args(argv)
     configure_logging(args.log_level)

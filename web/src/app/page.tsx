@@ -59,7 +59,7 @@ export default async function LandingPage() {
           }}
         >
           <div className="text-muted" style={{ fontSize: 13, marginBottom: 12 }}>
-            Coming soon: add courses right from here. For now, sign in to start building a schedule.
+            Build your schedule and see matching majors — no account needed. Sign in later to save it.
           </div>
           <a
             href="/schedule"
