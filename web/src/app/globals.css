@@ -24,6 +24,8 @@
   --track: #f0eee7;
   --info: #4a5b7d;
   --info-soft: #eef1f8;
+  --danger: #b3261e;
+  --danger-soft: #fbe9e7;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -44,6 +46,8 @@
     --track: #22222a;
     --info: #9aabcf;
     --info-soft: #1a1e2c;
+    --danger: #f0a39a;
+    --danger-soft: #351512;
   }
 }
 
@@ -71,3 +75,6 @@ body {
 @utility text-success { color: var(--success); }
 @utility border-app { border-color: var(--border); }
 @utility border-strong { border-color: var(--border-strong); }
+@utility bg-danger-soft { background: var(--danger-soft); }
+@utility text-danger { color: var(--danger); }
+@utility border-danger { border-color: var(--danger); }

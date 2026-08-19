@@ -2,6 +2,8 @@ import { Header } from '@/components/Header'
 import { createClient } from '@/lib/supabase/server'
 import { MVP_YEAR_ID } from '@/lib/mvp'
 import { CoursesUrlSync } from '@/components/schedule/CoursesUrlSync'
+import { QueryError } from '@/components/ui/QueryError'
+import { parseCourseIds, coursesParam, coursesSuffix } from '@/lib/courses/params'
 import Link from 'next/link'
 
 /** MVP umbrella majors. Each school's raw major_name is a school-specific label
@@ -43,14 +45,9 @@ export default async function MajorsPage({
   searchParams: Promise<{ courses?: string; major?: string }>
 }) {
   const supabase = await createClient()
-  const { courses: coursesParam, major: majorParam } = await searchParams
-  const courseIds = coursesParam
-    ? coursesParam.split(',').map(Number).filter(Boolean)
-    : []
-
-  const coursesSuffix = coursesParam
-    ? `&courses=${encodeURIComponent(coursesParam)}`
-    : ''
+  const { courses: coursesRaw, major: majorParam } = await searchParams
+  const courseIds = parseCourseIds(coursesRaw)
+  const suffix = coursesSuffix(courseIds)
   // Selection is validated against the static category list, not a DB query, so
   // a valid ?major= deep link can't be knocked back to the picker by a query error.
   const selectedCategory = MAJOR_CATEGORIES.find((c) => c.key === majorParam) ?? null
@@ -65,10 +62,9 @@ export default async function MajorsPage({
             supabase={supabase}
             category={selectedCategory}
             courseIds={courseIds}
-            coursesSuffix={coursesSuffix}
           />
         ) : (
-          <PickerView supabase={supabase} coursesSuffix={coursesSuffix} />
+          <PickerView supabase={supabase} coursesSuffix={suffix} />
         )}
       </main>
     </>
@@ -148,12 +144,10 @@ async function SchoolsView({
   supabase,
   category,
   courseIds,
-  coursesSuffix,
 }: {
   supabase: Awaited<ReturnType<typeof createClient>>
   category: MajorCategory
   courseIds: number[]
-  coursesSuffix: string
 }) {
   // Raise p_limit so the client-side category filter can't be truncated behind
   // higher-ranked rows of other majors. (At full roster scale ~900 agreements
@@ -187,7 +181,7 @@ async function SchoolsView({
   return (
     <>
       <Link
-        href={coursesSuffix ? `/majors?${coursesSuffix.replace(/^&/, '')}` : '/majors'}
+        href={courseIds.length ? `/majors?${coursesParam(courseIds)}` : '/majors'}
         className="text-accent"
         style={{ fontSize: 13, fontWeight: 500 }}
       >
@@ -202,11 +196,7 @@ async function SchoolsView({
           : 'No courses yet — showing every school at 0%. Add courses to your schedule to rank them.'}
       </p>
 
-      {error && (
-        <div style={{ padding: 12, background: '#fee', borderRadius: 6, marginBottom: 16 }}>
-          Query error: {error.message}
-        </div>
-      )}
+      <QueryError error={error} />
 
       <div
         className="bg-surface border-app"

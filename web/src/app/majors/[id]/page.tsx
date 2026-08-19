@@ -1,6 +1,9 @@
 import { Header } from '@/components/Header'
 import { createClient } from '@/lib/supabase/server'
 import { CoursesUrlSync } from '@/components/schedule/CoursesUrlSync'
+import { QueryError } from '@/components/ui/QueryError'
+import { parseCourseIds } from '@/lib/courses/params'
+import { classifyEntries } from '@/lib/requirements/classify'
 import { notFound } from 'next/navigation'
 import Link from 'next/link'
 
@@ -16,9 +19,7 @@ export default async function MajorDetailPage({
   if (!Number.isFinite(agreementId)) notFound()
 
   const { courses: coursesParam } = await searchParams
-  const courseIds = coursesParam
-    ? coursesParam.split(',').map(Number).filter(Boolean)
-    : []
+  const courseIds = parseCourseIds(coursesParam)
 
   const supabase = await createClient()
 
@@ -42,12 +43,8 @@ export default async function MajorDetailPage({
     .eq('id', agreement.receiving_id)
     .single()
 
-  const rows = entries ?? []
-  const satisfied = rows.filter((r) => r.satisfied && r.entry_type !== 'Requirement')
-  const unsatisfied = rows.filter((r) => !r.satisfied && r.entry_type !== 'Requirement')
-  const notes = rows.filter((r) => r.entry_type === 'Requirement')
-  const totalCheckable = satisfied.length + unsatisfied.length
-  const pct = totalCheckable ? Math.round((satisfied.length / totalCheckable) * 100) : 0
+  const { satisfied, unsatisfied, notes, checkableCount, completionPct } =
+    classifyEntries(entries ?? [])
 
   return (
     <>
@@ -77,22 +74,18 @@ export default async function MajorDetailPage({
           </h1>
           <div style={{ display: 'flex', alignItems: 'baseline', gap: 12, marginBottom: 8 }}>
             <span style={{ fontSize: 32, fontWeight: 700, letterSpacing: '-0.02em', fontVariantNumeric: 'tabular-nums' }}>
-              {pct}%
+              {completionPct}%
             </span>
             <span className="text-muted" style={{ fontSize: 14 }}>
-              complete · {satisfied.length} of {totalCheckable} requirements satisfied
+              complete · {satisfied.length} of {checkableCount} requirements satisfied
             </span>
           </div>
           <div className="bg-track" style={{ height: 8, borderRadius: 4, overflow: 'hidden', maxWidth: 480 }}>
-            <div style={{ height: '100%', width: `${pct}%`, background: 'var(--accent)', borderRadius: 4 }} />
+            <div style={{ height: '100%', width: `${completionPct}%`, background: 'var(--accent)', borderRadius: 4 }} />
           </div>
         </div>
 
-        {error && (
-          <div style={{ padding: 12, background: '#fee', borderRadius: 6, marginBottom: 16 }}>
-            Query error: {error.message}
-          </div>
-        )}
+        <QueryError error={error} />
 
         <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 24 }}>
           <section>
